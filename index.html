@@ -1,57 +1,77 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>駐車料金計算ツール</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2587858000608242"
-     crossorigin="anonymous"></script>
-   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EF1HXL933S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-EF1HXL933S');
-  </script>
-<h2>駐車料金計算サイトのご紹介</h2>
-<p>
-このサイトは、外出先や旅行時に「どのくらい駐車料金がかかるか？」を簡単に計算できる無料ツールです。<br>
-30分単位での料金シミュレーションに対応しており、ショッピングモールや観光地、コインパーキングの料金チェックに便利です。
-</p>
+<body>
+  <div class="container">
+    <!-- 説明エリア -->
+    <div class="description">
+      <h2>駐車料金計算サイトのご紹介</h2>
+      <p>
+        このサイトは、外出先や旅行時に「どのくらい駐車料金がかかるか？」を簡単に計算できる無料ツールです。<br>
+        30分単位での料金シミュレーションに対応しており、ショッピングモールや観光地、コインパーキングの料金チェックに便利です。
+      </p>
 
-<h2>このサイトの特徴</h2>
-<ul>
-  <li>30分単位の時間に対応した柔軟な設定</li>
-  <li>料金の上限や無料時間の設定も可能</li>
-  <li>スマホでも使いやすいシンプルな設計</li>
-</ul>
+      <h2>このサイトの特徴</h2>
+      <ul>
+        <li>30分単位の時間に対応した柔軟な設定</li>
+        <li>料金の上限や無料時間の設定も可能</li>
+        <li>スマホでも使いやすいシンプルな設計</li>
+      </ul>
 
-<h2>使い方ガイド</h2>
-<p>
-料金単位・時間帯・最大料金を入力して「計算」ボタンを押すだけでOK！<br>
-出先でパッと計算できて、無駄な出費を防げます。
-</p>
+      <h2>使い方ガイド</h2>
+      <p>
+        料金単位・時間帯・最大料金を入力して「計算」ボタンを押すだけでOK！<br>
+        出先でパッと計算できて、無駄な出費を防げます。
+      </p>
+    </div>
+
+    <!-- 計算フォームエリア -->
+    <div class="calculator">
+      <h1>駐車料金計算ツール</h1>
+      <label>駐車開始時刻：<input type="time" id="startTime"></label>
+      <label>駐車終了時刻：<input type="time" id="endTime"></label>
+      <label>最初の <input type="number" id="firstUnit" value="30"> 分料金：<input type="number" id="firstRate" value="240"> 円</label>
+      <label>以降 <input type="number" id="additionalUnit" value="30"> 分ごと料金：<input type="number" id="additionalRate" value="230"> 円</label>
+      <label><input type="checkbox" id="hasMax"> 最大料金を設定する</label>
+      <label>最大料金：<input type="number" id="maxRate" value="3000" disabled> 円</label>
+      <button onclick="calculateFee()">計算する</button>
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+
   <style>
     body {
       font-family: sans-serif;
+      margin: 0;
       padding: 1rem;
-      max-width: 600px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      max-width: 1200px;
       margin: auto;
     }
+
+    .description, .calculator {
+      flex: 1 1 500px;
+      min-width: 300px;
+    }
+
     label, input, select {
       display: block;
       margin: 0.5rem 0;
     }
+
     input[type="number"], input[type="time"] {
       width: 100%;
       padding: 0.5rem;
     }
+
     button {
       margin-top: 1rem;
       padding: 0.7rem;
       width: 100%;
     }
+
     .result {
       margin-top: 1.5rem;
       padding: 1rem;
@@ -59,63 +79,3 @@
       background: #f9f9f9;
     }
   </style>
-</head>
-<body>
-  <h1>駐車料金計算ツール</h1>
-  <label>駐車開始時刻：<input type="time" id="startTime"></label>
-  <label>駐車終了時刻：<input type="time" id="endTime"></label>
-  <label>最初の <input type="number" id="firstUnit" value="30"> 分料金：<input type="number" id="firstRate" value="240"> 円</label>
-  <label>以降 <input type="number" id="additionalUnit" value="30"> 分ごと料金：<input type="number" id="additionalRate" value="230"> 円</label>
-  <label><input type="checkbox" id="hasMax"> 最大料金を設定する</label>
-  <label>最大料金：<input type="number" id="maxRate" value="3000" disabled> 円</label>
-  <button onclick="calculateFee()">計算する</button>
-
-  <div class="result" id="result"></div>
-
-  <script>
-    document.getElementById("hasMax").addEventListener("change", function() {
-      document.getElementById("maxRate").disabled = !this.checked;
-    });
-
-    function calculateFee() {
-      const start = document.getElementById("startTime").value;
-      const end = document.getElementById("endTime").value;
-      const firstUnit = parseInt(document.getElementById("firstUnit").value);
-      const firstRate = parseInt(document.getElementById("firstRate").value);
-      const additionalUnit = parseInt(document.getElementById("additionalUnit").value);
-      const additionalRate = parseInt(document.getElementById("additionalRate").value);
-      const hasMax = document.getElementById("hasMax").checked;
-      const maxRate = parseInt(document.getElementById("maxRate").value);
-
-      if (!start || !end) {
-        alert("開始時刻と終了時刻を入力してください。");
-        return;
-      }
-
-      const [startHour, startMin] = start.split(":").map(Number);
-      const [endHour, endMin] = end.split(":").map(Number);
-      let totalMinutes = (endHour * 60 + endMin) - (startHour * 60 + startMin);
-      if (totalMinutes <= 0) {
-        alert("終了時刻は開始時刻より後にしてください。");
-        return;
-      }
-
-      let fee = 0;
-      if (totalMinutes <= firstUnit) {
-        fee = firstRate;
-      } else {
-        fee = firstRate;
-        totalMinutes -= firstUnit;
-        fee += Math.ceil(totalMinutes / additionalUnit) * additionalRate;
-      }
-
-      if (hasMax && fee > maxRate) fee = maxRate;
-
-      const hours = Math.floor((parseInt(endHour) * 60 + parseInt(endMin) - parseInt(startHour) * 60 - parseInt(startMin)) / 60);
-      const minutes = (parseInt(endHour) * 60 + parseInt(endMin) - parseInt(startHour) * 60 - parseInt(startMin)) % 60;
-      const result = `🕒 駐車時間：${hours}時間${minutes}分\n💰 合計料金：${fee.toLocaleString()}円`;
-      document.getElementById("result").innerText = result;
-    }
-  </script>
-</body>
-</html>
