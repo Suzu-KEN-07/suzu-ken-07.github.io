@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>お問い合わせ</title>
+</head>
+<body>
+  <h1>お問い合わせ</h1>
+
+  <form action="https://formsubmit.co/あなたのメールアドレス" method="POST">
+    <label for="name">お名前：</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label for="email">メールアドレス：</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label for="message">お問い合わせ内容：</label><br>
+    <textarea name="message" rows="6" required></textarea><br><br>
+
+    <button type="submit">送信</button>
+  </form>
+
+  <p>送信いただいた内容は、個人情報として適切に管理いたします。</p>
+</body>
+</html>
